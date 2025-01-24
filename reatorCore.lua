@@ -1,6 +1,6 @@
 --=== RMS 1.5V ===
 --================
---data: 23/01/2025
+--data: 24/01/2025
 
 --Base do sistema
 local monitor = peripheral.wrap("top")
@@ -12,7 +12,7 @@ local energiaTotal = peripheral.call("bottom","getMaxEnergy")
 local porcentagem = (energiaAtual / energiaTotal) * 100
 
 --Imprime a barra e a porcentagem
-function ImprimirBarra(porcentagem)
+  function ImprimirBarra(porcentagem)
     local barra = "|"
     local carregado = porcentagem
   
@@ -26,8 +26,8 @@ function ImprimirBarra(porcentagem)
     end
   
     barra = barra .. "| " .. carregado .. "%"
-    print(barra)
- end
+    monitor.write(barra)
+  end
 
   --Funcao para autenticar a inicializacao
   function Autenticar()
@@ -71,11 +71,17 @@ function ImprimirBarra(porcentagem)
   --Base do sistema
   PrintHeader()
   local estado = Autenticar()
+  sleep(1)
+  term.clear()
   
   while estado ~= 0 do
-    energiaAtual = peripheral.call("bottom","getEnergy")
-    energiaTotal = peripheral.call("bottom","getMaxEnergy")
-    porcentagem = (energiaAtual / energiaTotal) * 100
+    porcentagem = 0
+
+    if (peripheral.call("bottom","getEnergy") ~= nil) && (peripheral.call("bottom","getEnergy") ~= nil)then
+      energiaAtual = peripheral.call("bottom","getEnergy")
+      energiaTotal = peripheral.call("bottom","getMaxEnergy")
+      porcentagem = (energiaAtual / energiaTotal) * 100
+    end
 
     PrintHeader()
     monitor.setCursorPos(1,3)
@@ -83,7 +89,7 @@ function ImprimirBarra(porcentagem)
     monitor.setCursorPos(1,4)
     ImprimirBarra(porcentagem)
     monitor.setCursorPos(1,5)
-    monitor.write("Água:")
+    monitor.write("Agua:")
     monitor.setCursorPos(1,6)
     ImprimirBarra(porcentagem + 10)
     monitor.setCursorPos(1,7)
