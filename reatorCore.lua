@@ -1,14 +1,17 @@
---=== RMS 1.5V ===
---================
---data: 24/01/2025
+--=== RMS 1.6.1V ===
+--==================
+--data: 25/01/2025
 
 --Base do sistema
-local monitor = peripheral.wrap("top")
+local monitor = peripheral.wrap("monitor_0")
+local monitorProducao = peripheral.wrap("monitor_1")
+local bateria = peripheral.wrap("basicEnergyCube_0")
+
 monitor.clear()
 monitor.setCursorPos(1,1)
 
-local energiaAtual = peripheral.call("bottom","getEnergy")
-local energiaTotal = peripheral.call("bottom","getMaxEnergy")
+local energiaAtual = bateria.getEnergy()
+local energiaTotal = bateria.getMaxEnergy()
 local porcentagem = (energiaAtual / energiaTotal) * 100
 
 --Imprime a barra e a porcentagem
@@ -63,9 +66,9 @@ local porcentagem = (energiaAtual / energiaTotal) * 100
   function PrintHeader()
     monitor.clear()
     monitor.setCursorPos(1,1)
-    monitor.write("=== RMS 1.5V ===")
+    monitor.write("=== RMS 1.6.1V ===")
     monitor.setCursorPos(1,2)
-    monitor.write("================")
+    monitor.write("==================")
   end
   
   --Base do sistema
@@ -77,9 +80,9 @@ local porcentagem = (energiaAtual / energiaTotal) * 100
   while estado ~= 0 do
     porcentagem = 0
 
-    if (peripheral.call("bottom","getEnergy") ~= nil) && (peripheral.call("bottom","getEnergy") ~= nil)then
-      energiaAtual = peripheral.call("bottom","getEnergy")
-      energiaTotal = peripheral.call("bottom","getMaxEnergy")
+    if (bateria.getEnergy() ~= nil) and (bateria.getEnergy() ~= nil)then
+      energiaAtual = bateria.getEnergy()
+      energiaTotal = bateria.getMaxEnergy()
       porcentagem = (energiaAtual / energiaTotal) * 100
     end
 
